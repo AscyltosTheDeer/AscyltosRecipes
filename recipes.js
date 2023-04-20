@@ -34,7 +34,7 @@ function loadRecipes(selectedRecipe) {
 }
 
 // Define the path to the recipe files
-const recipePath = "recipes/";
+const recipePath = "recipes/*.json";
 
 // Get a reference to the recipe selector dropdown
 const recipeSelector = document.getElementById("recipe-selector");
