@@ -33,26 +33,21 @@ function loadRecipes(selectedRecipe) {
     .catch(error => console.error(error));
 }
 
-// Load the list of recipes and populate the dropdown
-fetch('recipes/recipe-list.json')
+// Define the path to the recipe files
+const recipePath = "recipes/";
+
+// Get a reference to the recipe selector dropdown
+const recipeSelector = document.getElementById("recipe-selector");
+
+// Fetch the list of recipe files and populate the selector dropdown
+fetch(recipePath)
   .then(response => response.json())
   .then(data => {
-    const recipeSelector = document.querySelector('#recipe-selector');
-    
-    // Populate the dropdown with options for each recipe
-    data.recipes.forEach(recipe => {
-      const option = document.createElement('option');
-      option.value = recipe.file;
-      option.textContent = recipe.title;
-      recipeSelector.appendChild(option);
+    // Iterate over each recipe file and add its title to the dropdown
+    data.forEach(recipe => {
+      const option = document.createElement("option");
+      option.text = recipe.title;
+      recipeSelector.add(option);
     });
-    
-    // Add an event listener to the dropdown to update the recipe display
-    recipeSelector.addEventListener('change', event => {
-      loadRecipes(event.target.value);
-    });
-    
-    // Load the first recipe by default
-    loadRecipes(data.recipes[0].file);
   })
   .catch(error => console.error(error));
