@@ -34,7 +34,7 @@ function loadRecipes(selectedRecipe) {
 }
 
 // Define the path to the recipe files
-const recipePath = "recipes/*.json";
+const recipePath = "recipes/";
 
 // Get a reference to the recipe selector dropdown
 const recipeSelector = document.getElementById("recipe-selector");
@@ -44,10 +44,18 @@ fetch(recipePath)
   .then(response => response.json())
   .then(data => {
     // Iterate over each recipe file and add its title to the dropdown
-    data.forEach(recipe => {
-      const option = document.createElement("option");
-      option.text = recipe.title;
-      recipeSelector.add(option);
+    data.forEach(file => {
+      const fileName = file.name;
+      if (fileName.endsWith(".json")) {
+        fetch(`${recipePath}/${fileName}`)
+          .then(response => response.json())
+          .then(recipe => {
+            const option = document.createElement("option");
+            option.text = recipe.title;
+            recipeSelector.add(option);
+          })
+          .catch(error => console.error(error));
+      }
     });
   })
   .catch(error => console.error(error));
